@@ -227,7 +227,7 @@ def _count(repo, spec: str) -> int:
 def rebase_on_origin(repo, log, lock=None) -> bool:
     """Take origin's new commits: a fast-forward, which leaves uncommitted files alone, or a rebase
     when this branch has commits of its own."""
-    with (lock or contextlib.nullcontext()):
+    with lock or contextlib.nullcontext():
         run(["git", "-C", str(repo), "fetch", "-q"])
         if not _count(repo, "HEAD..@{u}"):
             return True
