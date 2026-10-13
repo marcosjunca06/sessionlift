@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sessionlift"
+dynamic = ["version"]
+description = "Move a live Claude Code session from your laptop to your own server and back, and drive it from the Claude app while the laptop is shut"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+keywords = ["claude", "claude-code", "remote-control", "session", "ssh", "tmux", "server", "agent", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "paramiko>=3.4",
+    "tomli>=1.1; python_version < '3.11'",
+    "pywin32>=306; sys_platform == 'win32'",
+]
+
+[project.urls]
+Homepage = "https://github.com/marcosjunca06/sessionlift"
+Issues = "https://github.com/marcosjunca06/sessionlift/issues"
+
+[project.scripts]
+sessionlift = "sessionlift.cli:main"
+
+[tool.hatch.version]
+path = "src/sessionlift/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sessionlift"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"server/provision.sh" = "sessionlift/provision.sh"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "server", "tests", "README.md", "LICENSE"]
